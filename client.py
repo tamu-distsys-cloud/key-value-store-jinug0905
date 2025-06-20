@@ -14,6 +14,8 @@ class Clerk:
         self.cfg = cfg
 
         # Your definitions here.
+        self.c_idx = nrand()
+        self.r_idx = 0       # 0 indexed
 
     # Fetch the current value for a key.
     # Returns "" if the key does not exist.
@@ -28,7 +30,8 @@ class Clerk:
     # arguments in server.py.
     def get(self, key: str) -> str:
         # You will have to modify this function.
-        args = GetArgs(key)
+        args = GetArgs(key, self.c_idx, self.r_idx)
+        self.r_idx += 1
 
         while True:
             for s in self.servers:
@@ -51,7 +54,8 @@ class Clerk:
     # arguments in server.py.
     def put_append(self, key: str, value: str, op: str) -> str:
         # You will have to modify this function.
-        args = PutAppendArgs(key, value)
+        args = PutAppendArgs(key, value, self.c_idx, self.r_idx)
+        self.r_idx += 1
 
         while True:
             for s in self.servers:
